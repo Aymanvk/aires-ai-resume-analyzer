@@ -50,14 +50,23 @@ Traditional hiring processes are slow, inconsistent, and rely on manual resume s
 
 ## Screenshots
 
-| | |
+### Authentication
+
+| Login | Register |
 |:---:|:---:|
 | ![Login Page](screenshots/login.png) | ![Register Page](screenshots/register.png) |
-| **Login Page** | **Register Page** |
-| ![Candidate Dashboard](screenshots/dashboard.png) | ![Resume Analysis](screenshots/resume-analysis.png) |
-| **Candidate Dashboard** | **Resume Analysis** |
 
-> Place screenshots in a `screenshots/` folder in the repository root.
+### Candidate Dashboard
+
+| Overview | Resume Analysis |
+|:---:|:---:|
+| ![Candidate Dashboard](screenshots/dashboard.png) | ![Resume Analysis](screenshots/resume-analysis.png) |
+
+### Recruiter Dashboard
+
+| Analytics | Job Management |
+|:---:|:---:|
+| ![Recruiter Dashboard](screenshots/recruiter-dashboard.png) | ![Job Management](screenshots/job-management.png) |
 
 ---
 
