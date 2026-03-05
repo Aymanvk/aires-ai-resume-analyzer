@@ -1,0 +1,454 @@
+@import "tailwindcss";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Authentication Styles */
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.auth-box {
+  background: white;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 400px;
+}
+
+.auth-box h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #667eea;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #667eea;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn:hover {
+  background-color: #5568d3;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  margin-top: 10px;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+}
+
+.btn-success {
+  background-color: #28a745;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+}
+
+.link {
+  text-align: center;
+  margin-top: 15px;
+  color: #667eea;
+}
+
+.link a {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.link a:hover {
+  text-decoration: underline;
+}
+
+.error {
+  color: #dc3545;
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.success {
+  color: #28a745;
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+/* Dashboard Styles */
+.dashboard {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.dashboard-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dashboard-header h1 {
+  font-size: 24px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.logout-btn {
+  padding: 8px 20px;
+  background-color: white;
+  color: #667eea;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.logout-btn:hover {
+  background-color: #f0f0f0;
+}
+
+.dashboard-content {
+  padding: 30px;
+}
+
+.section {
+  background: white;
+  padding: 25px;
+  margin-bottom: 25px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.section h2 {
+  margin-bottom: 20px;
+  color: #667eea;
+  border-bottom: 2px solid #667eea;
+  padding-bottom: 10px;
+}
+
+/* Job Card */
+.job-card {
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.job-card h3 {
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.job-card p {
+  margin: 5px 0;
+  color: #666;
+}
+
+.match-score {
+  display: inline-block;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.match-high {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.match-medium {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.match-low {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.skill-gap {
+  background-color: #fff3cd;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.skill-gap strong {
+  color: #856404;
+}
+
+/* Analytics */
+.analytics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.stat-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 25px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.stat-card h3 {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.stat-card p {
+  font-size: 14px;
+}
+
+/* Candidate Ranking */
+.candidate-card {
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.candidate-info h4 {
+  margin-bottom: 5px;
+}
+
+.candidate-info p {
+  color: #666;
+  font-size: 14px;
+}
+
+/* Application Status */
+.status-badge {
+  display: inline-block;
+  padding: 5px 15px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.status-applied {
+  background-color: #cce5ff;
+  color: #004085;
+}
+
+.status-shortlisted {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.status-rejected {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+/* Search and Filter */
+.search-bar {
+  margin-bottom: 20px;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.filter-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filter-group select {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+/* Resume Upload */
+.upload-area {
+  border: 2px dashed #667eea;
+  padding: 30px;
+  text-align: center;
+  border-radius: 10px;
+  background-color: #f8f9ff;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.upload-area:hover {
+  background-color: #f0f2ff;
+  border-color: #5568d3;
+}
+
+.upload-area input[type="file"] {
+  display: none;
+}
+
+/* Job Management */
+.job-form {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.job-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.job-actions button {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.edit-btn {
+  background-color: #ffc107;
+  color: #000;
+}
+
+.edit-btn:hover {
+  background-color: #e0a800;
+}
+
+.delete-btn {
+  background-color: #dc3545;
+  color: white;
+}
+
+.delete-btn:hover {
+  background-color: #c82333;
+}
+
+.apply-btn {
+  background-color: #667eea;
+  color: white;
+  padding: 8px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.apply-btn:hover {
+  background-color: #5568d3;
+}
+
+.apply-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Resume Insights */
+.insights-grid {
+  display: grid;
+  gap: 20px;
+}
+
+.insight-item {
+  background-color: #f9f9f9;
+  padding: 15px;
+  border-radius: 8px;
+  border-left: 4px solid #667eea;
+}
+
+.insight-item h3 {
+  color: #667eea;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.insight-item ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.insight-item li {
+  padding: 5px 0;
+  color: #666;
+}
+
+.insight-item li::before {
+  content: "• ";
+  color: #667eea;
+  font-weight: bold;
+  margin-right: 8px;
+}

@@ -1,0 +1,199 @@
+\chapter{SYSTEM ANALYSIS }
+ 
+ \section{Module Description}
+ The AIRES system is divided into multiple functional modules, each responsible for a specific aspect of the recruitment workflow. The main modules include:
+ \begin{itemize}
+    \item \textbf{Authentication Module:} This module handles secure user registration and login for both Candidates and Recruiters. It enforces role-based access control, ensuring that each user type is directed to the appropriate dashboard. User credentials and profile information are stored and validated locally. Protected routes prevent unauthorized access to role-specific features.
+    
+    \item \textbf{Resume Upload \& Parsing Module:} This module allows candidates to upload resumes in PDF or DOCX format. It validates the file type before acceptance and simulates an AI-driven parsing process that extracts structured information including the candidate's skills, educational background, and work experience. The parsed data is stored in the application's data layer and made available to all downstream modules.
+    
+    \item \textbf{AI Job Matching Module:} This is the core intelligence module of AIRES. Once a candidate's resume has been parsed, this module computes a match score for every available job posting by comparing the candidate's extracted skill set against each job's list of required skills. Scores are expressed as percentages, where 100\% indicates a perfect skill match. Jobs are then sorted from highest to lowest match score for presentation to the candidate.
+    
+    \item \textbf{Skill Gap Analysis Module:} This module complements the job matching engine by identifying which required skills for a given position are absent from the candidate's profile. This ``skill gap'' information is presented alongside the match score, enabling candidates to understand specific areas for improvement and make informed decisions about which positions to pursue.
+    
+    \item \textbf{Job Management Module:} This recruiter-facing module provides full CRUD (Create, Read, Update, Delete) functionality for job postings. Recruiters can define a job title and associate it with a set of required skills. Each posted job receives a unique system-generated identifier. This module ensures that the pool of available jobs remains current and accurately reflects organizational hiring needs.
+    
+    \item \textbf{Candidate Ranking Module:} This module aggregates all submitted applications and ranks candidates by their match score for a selected job position. Recruiters can filter the ranked list by specific job postings to compare applicants side by side. This eliminates manual shortlisting and ensures that the most qualified candidates are surfaced automatically.
+    
+    \item \textbf{Application Tracking Module:} This module manages the lifecycle of a job application from submission to final decision. Candidates can apply to jobs with a single action, and their applications are stored persistently. Recruiters can update the status of any application (e.g., Applied, Shortlisted, Rejected), and these status updates are reflected in real time on the candidate's dashboard.
+    
+    \item \textbf{Analytics \& Reporting Module:} The analytics module provides recruiters with a high-level summary of their recruitment pipeline. Key metrics include the total number of active job postings, total applications received, number of shortlisted candidates, number of rejected applications, average applications per job, shortlist rate, and the count of applications still pending review. These insights support data-driven hiring decisions.
+    
+\end{itemize}
+\section{Business Rules}
+Business rules are specific guidelines, conditions, or constraints that govern the operations of a
+business or system. They define how processes and activities should be conducted to ensure
+consistency, fairness, and alignment with business objectives. Business rules help ensure that the
+system behaves as expected and meets the needs of users or stakeholders.\\\\
+\textbf{User Registration and Authentication}
+\begin{itemize}
+    \item Every user must register with a unique email address, a full name, a password, and a role (Candidate or Recruiter).
+    \item Role assignment at registration is permanent and determines which dashboard and features the user can access throughout the session.
+    \item Login credentials are validated locally; a session is initiated upon matching credentials, and users are redirected to their role-specific dashboard.
+    \item A logged-in user's session persists across page refreshes via browser localStorage until an explicit logout action is performed.
+\end{itemize}
+\textbf{Resume and Profile Management}
+\begin{itemize}
+    \item Only PDF and DOCX file formats are accepted for resume upload. Files of any other type are rejected with a descriptive error message.
+    \item A candidate may submit a new resume at any time, which will overwrite the previously parsed profile.
+    \item Once a resume is parsed, the extracted skills, education, and experience data are stored and used immediately for job matching.
+    \item Job match scores and skill gap analyses for all postings are automatically recomputed whenever a candidate's resume data is updated.
+\end{itemize}
+\textbf{Job Posting Rules}
+\begin{itemize}
+    \item Only users registered with the Recruiter role are permitted to create, edit, or delete job postings.
+    \item Each job posting requires a title and at least one required skill. Incomplete submissions are rejected.
+    \item Each job is assigned a unique, system-generated identifier (e.g., \texttt{JOB-1001}) upon creation.
+    \item Deleting a job posting removes it from the active job pool; however, historical application records associated with that job are preserved.
+\end{itemize}
+\textbf{Job Matching and Application Rules}
+\begin{itemize}
+    \item A candidate must have an uploaded and parsed resume before job match scores are displayed or job applications can be submitted.
+    \item Match scores are calculated as the ratio of matched skills to total required skills, expressed as a percentage.
+    \item A candidate may apply for any job regardless of their match score; however, the match score is prominently displayed to guide decision-making.
+    \item A candidate may only apply to a given job once. Subsequent application attempts for the same job are blocked, and the current application status is displayed instead.
+\end{itemize}
+\textbf{Application Status Management}
+\begin{itemize}
+    \item All new applications are assigned an initial status of ``Applied'' at the time of submission.
+    \item Only recruiters have the authority to change an application's status. Valid status values are: Applied, Shortlisted, and Rejected.
+    \item Status changes made by a recruiter are immediately reflected on the candidate's application tracking view.
+\end{itemize}
+
+\newpage
+\section{Analysis of Architecture (and/ or) Algorithms}
+{\large \textbf{MERN Stack Architecture}}\\\\
+AIRES is built on the MERN stack, a JavaScript-centric technology suite that enables a unified development environment across both client and server layers. The stack is composed of four primary technologies:\\\\
+\begin{enumerate}
+    \item \textbf{React (Frontend UI):}
+    \begin{itemize}
+        \item React is used to build the entire client-side interface as a single-page application (SPA). Components are modular and reusable, each responsible for a distinct part of the UI.
+        \item React's virtual DOM ensures efficient re-rendering, providing a fast and responsive experience as data changes.
+        \item React Router is used for client-side navigation between views, including Login, Register, Candidate Dashboard, and Recruiter Dashboard.
+        \item State management is handled using React Hooks (\texttt{useState}, \texttt{useEffect}).
+    \end{itemize}
+    \item \textbf{Node.js \& Express.js (Backend API):}
+    \begin{itemize}
+        \item Node.js provides the runtime environment for the server-side JavaScript codebase.
+        \item Express.js is used to define and expose RESTful API endpoints for user authentication, job management, and application processing.
+        \item Middleware functions handle request parsing, error handling, and route protection.
+    \end{itemize}
+    \item \textbf{MongoDB (Database):}
+    \begin{itemize}
+        \item MongoDB stores persistent data including user profiles, job postings, and application records as flexible JSON-like documents.
+        \item Mongoose ODM (Object Data Modeling) is used to define schemas and interact with the database from the Node.js layer.
+    \end{itemize}
+    \item \textbf{Vite (Build Tool):}
+    \begin{itemize}
+        \item Vite is used as the development server and build tool for the React frontend, providing near-instant Hot Module Replacement (HMR) and optimized production builds.
+    \end{itemize}
+\end{enumerate}
+{\large \textbf{AI Skill-Matching Algorithm}}\\\\
+The core algorithmic component of AIRES is the job match scoring engine. The algorithm operates as follows:
+\begin{enumerate}
+    \item The candidate's extracted skills (e.g., \texttt{["JavaScript", "React", "Node.js"]}) are normalized to lowercase.
+    \item For each job posting, the list of required skills is also normalized.
+    \item A skill is considered ``matched'' if the candidate skill string contains the required skill string, or vice versa (substring matching), to accommodate minor naming variations (e.g., ``Node'' vs ``Node.js'').
+    \item The match score is computed as: $\text{Match Score} = \left(\frac{\text{Number of Matched Skills}}{\text{Total Required Skills}}\right) \times 100\%$
+    \item Skills present in the required list but absent from the candidate profile are identified as the ``skill gap.''
+\end{enumerate}
+
+\section{Project Pipeline}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[
+        node distance=0.7cm and 1.5cm,
+        box/.style={rectangle, rounded corners, draw=black, fill=blue!10, text width=3.2cm, align=center, minimum height=1cm, font=\small},
+        arr/.style={->, thick, >=stealth}
+    ]
+        \node[box] (reg) {User Registration \& Login};
+        \node[box, below=of reg] (upload) {Resume Upload (PDF/DOCX)};
+        \node[box, below=of upload] (parse) {AI Resume Parsing};
+        \node[box, below=of parse] (match) {Job Match Score Computation};
+        \node[box, below=of match] (display) {Ranked Job List \& Skill Gap Display};
+        \node[box, below=of display] (apply) {Candidate Applies to Job};
+        \node[box, below=of apply] (recruiter) {Recruiter Reviews \& Ranks Applicants};
+        \node[box, below=of recruiter] (status) {Application Status Update};
+
+        \draw[arr] (reg) -- (upload);
+        \draw[arr] (upload) -- (parse);
+        \draw[arr] (parse) -- (match);
+        \draw[arr] (match) -- (display);
+        \draw[arr] (display) -- (apply);
+        \draw[arr] (apply) -- (recruiter);
+        \draw[arr] (recruiter) -- (status);
+    \end{tikzpicture}
+    \caption{AIRES Project Pipeline}
+    \label{fig:project_pipeline}
+\end{figure}
+
+ \section{Feasibility Analysis}
+ 
+ \subsection{Technical Feasibility}
+
+ Technical feasibility assesses whether a project can be successfully developed and implemented using the current available technology, skills, and resources. It involves evaluating the tools, technologies, and infrastructure required for the project, along with the team's technical expertise.\\\\
+ \noindent
+The technologies chosen for the AIRES project are highly feasible and align well with its requirements. The frontend is developed using React with Vite, a widely adopted and well-documented combination for building modern single-page applications. The backend leverages Node.js and Express.js, both of which are industry-standard technologies for building RESTful APIs. MongoDB serves as the database, providing the flexibility needed to store heterogeneous resume and job data as documents. The AI resume parsing functionality is implemented as a client-side simulation that can be upgraded to a production-grade NLP service (such as OpenAI's API or a custom ML model) in future iterations without architectural changes. All technologies used are open-source, widely supported, and compatible with the project's objectives. Version control is managed through Git and GitHub, ensuring organized collaboration and change tracking.
+
+ 
+ \subsection{Economical Feasibility}
+ Economic feasibility refers to the assessment of the financial aspects of a project to determine whether it is cost-effective and viable. It evaluates whether the benefits and potential returns of the project justify the costs associated with its development, deployment, and maintenance.\\\\
+ The economic feasibility of the AIRES project is highly favorable. All core technologies in the stack---React, Node.js, Express.js, MongoDB (Community Edition), and Vite---are free and open-source. Development tooling including Visual Studio Code and Git requires no licensing fees. The application can be deployed at minimal cost on cloud platforms such as Render (free tier for Node.js servers), MongoDB Atlas (free M0 tier), and Vercel or Netlify (free tier for React frontends). Ongoing maintenance costs are limited to code updates and potential infrastructure scaling, which can be managed incrementally as usage grows. The system eliminates the need for manual recruiter effort in resume screening, offering a measurable return on investment in the form of saved time and improved hiring quality.
+
+  
+ \subsection{Operational Feasibility}
+ Operational feasibility evaluates whether the project aligns with operational requirements and whether it can be smoothly integrated into existing processes.\\\\
+ The operational feasibility of AIRES is strong. The system is designed around two well-defined user roles with clearly scoped workflows, making it intuitive to operate without extensive training. The candidate workflow---register, upload resume, view match scores, apply---is a linear process that mirrors familiar job portal experiences. The recruiter workflow---post jobs, view ranked candidates, update statuses, review analytics---is equally straightforward. The use of a web-based interface with a responsive design ensures accessibility across devices. The application's modular architecture means that individual components (e.g., the matching algorithm, the analytics module) can be modified or replaced without disrupting the rest of the system.\\\\
+\noindent
+Overall, AIRES demonstrates strong operational feasibility. Its clean architecture, role-based design, and intuitive user interfaces make it practical for deployment in real-world recruitment scenarios, ranging from small businesses to educational placement cells.
+ \section{System Environment}
+ 
+ \subsection{Software Environment}
+ \textbf{React (v18) with Vite:}
+ The frontend of AIRES is developed using React 18, leveraging functional components and React Hooks for state management. Vite is used as the build tool, providing fast development server startup and Hot Module Replacement. React Router v6 handles all client-side routing and protected route logic.\\\\
+ \textbf{Node.js \& Express.js:}
+ The backend API server is built using Node.js v18+ and Express.js. Express middleware handles JSON body parsing and routing. The server exposes RESTful endpoints for user authentication, job management, and application processing. The \texttt{.env} file manages sensitive configuration such as database connection strings and API keys.\\\\
+ \textbf{MongoDB \& Mongoose:}
+ MongoDB is used as the primary database. Mongoose schemas define the data models for Users, Jobs, and Applications. The database is accessed via a connection string configured in the server's environment variables.\\\\
+ \textbf{Browser localStorage:}
+ For the current implementation, client-side data persistence is achieved using browser localStorage for rapid prototyping. User sessions, job listings, resume data, and application histories are serialized as JSON and stored locally. This layer is designed to be replaced by API calls to the Express backend in a production deployment.\\\\
+ \textbf{CSS (Vanilla):}
+ The application is styled using custom, hand-crafted CSS with a cohesive design system featuring gradient accents, glassmorphism card components, and smooth CSS transitions. No external CSS frameworks are used.
+
+  
+  \subsection{Hardware Environment}
+  \textbf{Processor (CPU):}Intel Core i5 or higher\\\\
+  \textbf{Memory (RAM):}8 GB (16 GB recommended)\\\\
+  \textbf{Storage:}256 GB SSD or higher\\\\
+  \textbf{Graphics Card (GPU):}Integrated or dedicated GPU (no special requirements)\\\\
+  \textbf{Operating System:}Windows 10/11, macOS, or Linux\\\\
+  \textbf{Network:}Stable broadband internet connection for cloud database and deployment access
+  \newpage
+  
+  \section{Actors and roles}
+  The system involves two primary actors: Candidate and Recruiter.\\\\
+\noindent
+\textbf{Actor: Candidate}
+\\\\
+ \textbf{Role:}
+ \begin{itemize}
+    \item Register and log in to the AIRES platform with a Candidate role.
+    \item Upload a resume in PDF or DOCX format for AI-powered parsing.
+    \item View extracted profile information including skills, education, and experience.
+    \item Browse the list of available job postings sorted by AI-computed match score.
+    \item View skill gap analysis for each job to identify areas of improvement.
+    \item Apply to any job posting and track the status of submitted applications.
+ \end{itemize}
+\noindent
+\textbf{Actor: Recruiter}
+\\\\
+\textbf{Role:}
+\begin{itemize}
+    \item Register and log in to the AIRES platform with a Recruiter role.
+    \item Create, edit, and delete job postings with titles and required skill sets.
+    \item View a ranked list of all applicants for each job, sorted by match score.
+    \item Update the status of individual applications (Applied, Shortlisted, Rejected).
+    \item Access the analytics dashboard for an overview of recruitment pipeline metrics.
+\end{itemize}
+  

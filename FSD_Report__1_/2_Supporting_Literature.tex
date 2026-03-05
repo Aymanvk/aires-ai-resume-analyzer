@@ -1,0 +1,21 @@
+\chapter{SUPPORTING LITERATURE}
+
+\section{Applicant Tracking Systems (ATS)}
+Applicant Tracking Systems are software applications that assist organizations in managing their recruitment workflow. Traditional ATS platforms parse resumes to extract candidate information, store it in a structured database, and allow recruiters to filter and sort candidates based on keywords or criteria. However, conventional ATS solutions are often keyword-dependent, opaque to candidates, and lack intelligent matching capabilities. AIRES builds upon this concept by incorporating a transparent, score-based matching engine that surfaces results to both recruiters and candidates simultaneously.\\\\
+Prior work in ATS development highlights the importance of structured data extraction from unstructured resume documents \cite{Bharadwaj2020}. Semi-structured formats like PDF and DOCX present challenges for natural language processing pipelines due to their variable layouts and mixed content types.
+
+\section{Natural Language Processing for Resume Parsing}
+Resume parsing is a well-studied problem in the NLP domain. Early approaches relied on hand-crafted rule-based systems and regular expressions. More recent work leverages Named Entity Recognition (NER) models fine-tuned on labeled resume corpora to extract entities such as \textit{skills}, \textit{organizations}, \textit{dates}, and \textit{job titles} with significantly higher accuracy. Models such as BERT and SpaCy-based pipelines have demonstrated strong performance on this task \cite{Chen2021}.\\\\
+For the current version of AIRES, resume parsing is implemented as a structured simulation layer that returns predefined parsed entities. This is designed as a modular interchange point, allowing the simulation to be replaced by a production NLP model in future iterations without requiring changes to upstream or downstream components.
+
+\section{Skill-Based Job Matching}
+Job matching algorithms typically operate in one of three paradigms: keyword matching, vector space similarity, and collaborative filtering. Keyword matching is the simplest approach and is prone to vocabulary mismatches. Vector space models, using techniques such as TF-IDF or word2vec embeddings, represent skills as vectors and compute cosine similarity between job and candidate profiles \cite{Schmitt2016}. Collaborative filtering leverages historical hiring patterns to predict the suitability of candidates.\\\\
+AIRES employs a substring-based normalized keyword matching approach, which is deterministic, interpretable, and requires no training data. This makes it suitable for a prototype-scale system where simplicity and explainability are valued over marginal accuracy gains.
+
+\section{MERN Stack for Web Application Development}
+The MERN stack (MongoDB, Express.js, React, Node.js) has become one of the most widely adopted technology stacks for building full-stack JavaScript web applications. React's component-based architecture promotes code reusability and separation of concerns. Node.js and Express.js together provide a lightweight, high-performance server runtime for RESTful API development. MongoDB's document model is well suited to storing the heterogeneous, schema-flexible data associated with resumes and job listings \cite{Tilkov2010}.\\\\
+The choice of the MERN stack for AIRES is supported by the widespread availability of libraries, active community support, and the ability to use a single programming language (JavaScript/TypeScript) across the entire stack, reducing context switching and improving developer productivity.
+
+\section{Role-Based Access Control (RBAC)}
+Role-Based Access Control is a standard approach to managing system access by assigning permissions to roles rather than individual users. In multi-stakeholder systems such as recruitment platforms, RBAC ensures that candidates can only access features relevant to their job search, while recruiters can only access hiring management tools. AIRES implements a lightweight RBAC model at the routing level using React Router's protected route pattern, ensuring that URL-based access to role-specific dashboards is enforced.
+

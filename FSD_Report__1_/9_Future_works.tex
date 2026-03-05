@@ -1,0 +1,26 @@
+\chapter{FUTURE WORKS}
+
+The current version of AIRES establishes a solid foundation for an AI-powered recruitment platform. Several significant enhancements and extensions are planned for future iterations:
+
+\begin{enumerate}
+    \item \textbf{Production-Grade NLP Resume Parser:} The current AI parsing simulation would be replaced by a real natural language processing pipeline. Candidate resumes would be processed using libraries such as SpaCy, or by calling a large language model API (e.g., OpenAI GPT-4, Google Gemini), to accurately extract skills, experience, education, and contact information from arbitrary PDF and DOCX layouts.
+    
+    \item \textbf{Advanced Matching Algorithms:} The current substring-based skill matching algorithm would be augmented with vector-space similarity models (e.g., sentence embeddings via SentenceTransformers or word2vec), enabling semantic matching that handles synonyms and related technologies (e.g., matching ``React'' to ``ReactJS'' or ``front-end development'' even without an exact string match).
+    
+    \item \textbf{Weighted Skill Importance:} Recruiters would be able to assign importance weights to individual required skills when posting a job (e.g., ``Python is mandatory, SQL is preferred''). The matching algorithm would then compute a weighted score reflecting the relative priority of each skill, resulting in more nuanced candidate rankings.
+    
+    \item \textbf{Full Backend API Integration:} The current localStorage-based data persistence layer would be replaced by a fully functional Express.js REST API backed by a MongoDB database. This would enable multi-device session persistence, data integrity, and scalability to support thousands of concurrent users.
+    
+    \item \textbf{Email Notifications:} Automated email alerts would be sent to candidates when their application status changes (e.g., ``You have been shortlisted for Frontend Developer at Company X''). Recruiters would receive digest emails summarizing new applications received.
+    
+    \item \textbf{Interview Scheduling Integration:} The platform would integrate with calendar APIs (e.g., Google Calendar) to allow recruiters to propose and confirm interview slots directly from within the AIRES dashboard, and allow candidates to accept or reschedule.
+    
+    \item \textbf{Resume Scoring and Benchmarking:} Candidates would receive a holistic resume quality score and benchmarking data comparing their profile to the aggregate of all candidates who have applied for similar roles. This would provide actionable insight beyond just the skill gap.
+    
+    \item \textbf{Recruiter Collaboration Features:} Multiple recruiters from the same organization would be able to collaborate on a shared job pipeline, with the ability to add comments, internal ratings, and notes on individual candidates.
+    
+    \item \textbf{Mobile Application:} A dedicated mobile application (React Native) would be developed to allow candidates and recruiters to access AIRES on-the-go, with push notifications for status changes and application updates.
+    
+    \item \textbf{Machine Learning Feedback Loop:} Historical hiring decisions (which candidates were ultimately hired) would feed back into the matching model as labeled training data, enabling the algorithm to improve its predictions over time using supervised learning.
+\end{enumerate}
+

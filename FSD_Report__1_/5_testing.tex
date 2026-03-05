@@ -1,0 +1,182 @@
+\chapter{TESTING}
+Testing is a crucial part of software development, ensuring that the application runs correctly, is free of bugs, and provides a seamless experience for users. Without proper testing, a system may contain logic errors, broken workflows, or inconsistent data states that frustrate users and undermine reliability. The AIRES system is tested across multiple levels: unit testing, integration testing, system testing, regression testing, and performance testing.  
+\noindent
+Unit testing checks individual components and functions in isolation---such as the match score algorithm, file type validation, and form input handling---to ensure they produce correct outputs. Integration testing verifies that different modules interact correctly, for example confirming that a resume upload correctly triggers the match score computation across all job listings. System testing evaluates the entire application as a unified system, ensuring all workflows from login to job application function end-to-end. Performance testing ensures the application responds quickly under realistic data loads.
+
+\section{Unit Testing}
+Unit testing focuses on testing individual components of the AIRES system, such as the skill matching algorithm, form validation logic, and data transformation functions, to ensure they function correctly in isolation.
+
+
+
+\renewcommand{\arraystretch}{1.3}
+
+\begin{longtable}{|p{1.5cm}|p{2.5cm}|p{4cm}|p{4cm}|c|}
+    
+    \hline
+    \textbf{Test Case ID} & \textbf{Component} & \textbf{Test Description} & \textbf{Expected Result} & \textbf{Status} \\
+    \hline
+    \endfirsthead
+
+    \hline
+    \textbf{Test Case ID} & \textbf{Component} & \textbf{Test Description} & \textbf{Expected Result} & \textbf{Status} \\
+    \hline
+    \endhead
+
+    \hline
+    
+    \endfoot
+
+    \hline
+    \caption{Unit Test Cases for AIRES} \label{tab:unit_tests} \\
+    \endlastfoot
+
+    UT01 & Match Score Algorithm & \raggedright Verify that match score is 100\% when all required skills match & \raggedright Returns 100 & Pass \\
+    \hline
+    UT02 & Match Score Algorithm & \raggedright Verify that match score is 0 when no required skills match & \raggedright Returns 0 & Pass \\
+    \hline
+    UT03 & Skill Gap Analysis & \raggedright Ensure missing skills are correctly identified for a job & \raggedright Returns only skills absent from candidate profile & Pass \\
+    \hline
+    UT04 & File Validation & \raggedright Validate that DOCX file is accepted during resume upload & \raggedright File is accepted without error & Pass \\
+    \hline
+    UT05 & File Validation & \raggedright Validate that a PNG file is rejected during resume upload & \raggedright Error message is displayed & Pass \\
+    \hline
+    UT06 & Job Filtering & \raggedright Verify that search by job title correctly filters the job list & \raggedright Only matching jobs are shown & Pass \\
+    \hline
+    UT07 & Score Filter & \raggedright Verify that ``High Match'' filter shows only jobs with 70\%+ score & \raggedright Only high-score jobs are displayed & Pass \\
+    \hline
+    UT08 & Application Check & \raggedright Verify that hasApplied() returns true for an already-applied job & \raggedright Returns true and shows status badge & Pass \\
+    \end{longtable}
+
+
+
+
+\newpage
+\section{Integration Testing}
+Integration testing ensures that different AIRES modules interact correctly with each other. It checks whether resume parsing feeds correct data into the matching engine, whether the matching engine correctly populates job listings, and whether an application submission is correctly reflected in both the candidate and recruiter views.
+\FloatBarrier % Prevents table from moving to the next page
+\vspace{-10pt} % Reduces extra space before the table
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.3}
+    \small
+    \begin{tabular}{|c|p{3cm}|p{3cm}|p{3cm}|c|}
+        \hline
+        \textbf{Test Case ID} & \textbf{Component} & \textbf{Test Description} & \textbf{Expected Result} & \textbf{Status} \\
+        \hline
+        IT01 & Resume Upload \& Matching & Verify resume upload triggers match score computation for all jobs & Match scores appear on job listings after upload & Pass \\
+        \hline
+        IT02 & Job List \& Application & Ensure applying to a job correctly stores the application in both candidate and global records & Application appears in My Applications and in recruiter's candidate list & Pass \\
+        \hline
+        IT03 & Recruiter Status Update \& Candidate View & Verify that a recruiter's status change is reflected on the candidate's dashboard & Candidate sees updated status immediately & Pass \\
+        \hline
+        IT04 & Job Post \& Job List & Ensure a newly posted job appears in the candidate's job listing & New job visible to candidate with match score & Pass \\
+        \hline
+        IT05 & Analytics \& Applications & Verify analytics totals update correctly when new applications are added & Analytics counts are accurate & Pass \\
+        \hline
+        IT06 & Protected Routes \& Auth & Ensure a candidate cannot access the recruiter dashboard via URL & Redirect to login page & Pass \\
+        \hline
+    \end{tabular}
+    \caption{Integration Test Cases for AIRES}
+    \label{tab:integration_tests}
+\end{table}
+\newpage
+\section{System Testing}
+System testing evaluates the entire AIRES application as a complete, end-to-end system. It verifies the complete user journeys for both roles, cross-component data consistency, and overall functional correctness.
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabular}{|c|c|p{4cm}|p{3cm}|c|}
+        \hline
+        \textbf{Test Case ID} & \textbf{Component} & \textbf{Test Description} & \textbf{Expected Result} & \textbf{Status} \\
+        \hline
+        ST01 & Application Launch & Verify that the app loads without errors on first visit & Login page renders correctly & Pass \\
+        \hline
+        ST02 & User Interface & Check that all UI elements (buttons, forms, cards, tables) function correctly & All interactive elements respond correctly & Pass \\
+        \hline
+        ST03 & Candidate Flow & Register as candidate, upload resume, view matches, apply to a job & Entire candidate workflow executes without error & Pass \\
+        \hline
+        ST04 & Recruiter Flow & Register as recruiter, post a job, view candidates, update status & Entire recruiter workflow executes without error & Pass \\
+        \hline
+        ST05 & Responsive Layout & Verify that the UI renders correctly on different screen sizes & No overflow or broken layout on standard screen widths & Pass \\
+        \hline
+    \end{tabular}
+    \caption{System Test Cases for AIRES}
+    \label{tab:system_tests}
+\end{table}
+\newpage
+\section{Regression Testing}
+Regression testing ensures that code changes---such as adding new features or fixing bugs---do not break previously working functionality in AIRES.
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.3}
+    \small
+    \begin{tabular}{|c|c|p{3cm}|p{3cm}|c|}
+        \hline
+        \textbf{Test Case ID} & \textbf{Component} & \textbf{Test Description} & \textbf{Expected Result} & \textbf{Status} \\
+        \hline
+        RT01 & Match Score & \raggedright Verify score computation is unaffected after adding skill gap feature & \raggedright Scores remain accurate & Pass \\
+        \hline
+        RT02 & Job List & \raggedright Ensure job search filter still works after adding score filter & \raggedright Both filters work independently & Pass \\
+        \hline
+        RT03 & Application Status & \raggedright Check status update still persists after analytics module was added & \raggedright Status correctly saved to localStorage & Pass \\
+        \hline
+        RT04 & Auth Routing & \raggedright Verify protected route redirects still work after router updates & \raggedright Unauthorized access redirected to login & Pass \\
+        \hline
+        RT05 & Resume Upload & \raggedright Validate that file type check is intact after UI styling changes & \raggedright Invalid files still rejected & Pass \\
+        \hline
+        RT06 & Analytics Data & \raggedright Check that analytics display correct data after job deletion & \raggedright Analytics counts update correctly & Pass \\
+        \hline
+    \end{tabular}
+    \caption{Regression Test Cases for AIRES}
+    \label{tab:regression_tests}
+\end{table}
+\newpage
+\section{Sound and Media Testing}
+Sound and media testing is not applicable to the AIRES platform, as it is a silent, professional web application with no audio components. This section is reserved for UI and visual media validation.
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.3}
+    \small
+    \begin{tabular}{|c|c|p{3cm}|p{3cm}|c|}
+        \hline
+        \textbf{Test Case ID} & \textbf{Component} & \textbf{Test Description} & \textbf{Expected Result} & \textbf{Status} \\
+        \hline
+        SM01 & Color Theming & \raggedright Verify that match score badge colors render correctly (green/orange/red) & \raggedright Correct color applied based on score range & Pass \\
+        \hline
+        SM02 & CSS Transitions & \raggedright Check that hover effects and button transitions animate smoothly & \raggedright Smooth animations visible on interaction & Pass \\
+        \hline
+        SM03 & Icon Rendering & \raggedright Validate that emoji icons in headings render across major browsers & \raggedright Icons displayed consistently & Pass \\
+        \hline
+        SM04 & Form Feedback & \raggedright Check that error and success messages display with correct styling & \raggedright Messages are visible and correctly colored & Pass \\
+        \hline
+    \end{tabular}
+    \caption{UI and Visual Media Testing for AIRES}
+    \label{tab:sound_media_tests}
+\end{table}
+
+\newpage
+\section{Performance Testing}
+Performance testing ensures that AIRES responds quickly and efficiently under realistic usage conditions. It evaluates load time, rendering speed, and data handling performance.
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabular}{|c|c|p{4cm}|p{3cm}|c|}
+        \hline
+        \textbf{Test Case ID} & \textbf{Component} & \textbf{Test Description} & \textbf{Expected Result} & \textbf{Status} \\
+        \hline
+        PT01 & Initial Load & Measure time for the app to render the login page & Page loads in under 2 seconds & Pass \\
+        \hline
+        PT02 & Resume Parsing & Measure time for the AI parsing simulation to complete & Parsing completes within 1.5 seconds & Pass \\
+        \hline
+        PT03 & Job List Render & Check rendering speed with 20+ job listings & Job list renders without visible lag & Pass \\
+        \hline
+        PT04 & Candidate Ranking & Measure time to sort and display 50+ applicants & Ranking renders without delay & Pass \\
+        \hline
+        PT05 & localStorage I/O & Verify read/write operations to localStorage are performant & Operations complete in under 50ms & Pass \\
+        \hline
+    \end{tabular}
+    \caption{Performance Test Cases for AIRES}
+    \label{tab:performance_tests}
+\end{table}
+
+
